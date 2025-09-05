@@ -22,7 +22,7 @@ function saveNotes() {
     const notes = [];
     document.querySelectorAll('.note').forEach(note => {
         notes.push({
-            text: note.textContent.slice(0, -2),
+            text: note.textContent.slice(0, -1),
             color: note.classList.contains('note-yellow') ? 'note-yellow' : 'note-yellow'
         });
     });
