@@ -3,7 +3,7 @@ const addButton = document.getElementById('add-note-button');
 const notesContainer = document.getElementById('notes-container');
 const toggleThemeButton = document.getElementById('toggle-theme-button');
 const body = document.body;
-const colors = ['note-yellow'];
+const colors = ['note-yellow', 'note-blue', 'note-pink'];
 
 function createNoteElement(text, colorClass) {
     const noteDiv = document.createElement('div');
@@ -18,9 +18,19 @@ function createNoteElement(text, colorClass) {
     return noteDiv;
 }
 
+function saveNotes() {
+    const notes = [];
+    document.querySelectorAll('.note').forEach(note => {
+        notes.push({
+            text: note.textContent.slice(0, -2),
+            color: note.classList.contains('note-yellow') ? 'note-yellow' : 'note-yellow'
+        });
+    });
+    localStorage.setItem('notes', JSON.stringify(notes));
+}
+
 function loadNotes() {
-    const storedNotes = [];
-    console.log(storedNotes);
+    const storedNotes = localStorage.getItem('notes');
     if (storedNotes) {
         const notes = JSON.parse(storedNotes);
         notes.forEach(noteData => {
@@ -28,7 +38,7 @@ function loadNotes() {
             notesContainer.appendChild(newNote);
         });
     }
-}
+}   
 
 function setInitialTheme() {
     const isDarkMode = localStorage.getItem('isDarkMode') === 'true';
@@ -90,7 +100,6 @@ addButton.addEventListener('click', () => {
         const newNote = createNoteElement(noteText, randomColor);
         notesContainer.appendChild(newNote);
         const newNoteErr = createNoteElement(noteText, randomColor);
-        notesContainer.appendChild(newNoteErr);
         noteInput.value = '';
         addButton.disabled = true;
         saveNotes();
